@@ -38,69 +38,6 @@ cat("\n")
 
 # Variales cuantitativas
 
-#######################
-cat("LotFrontage")
-bins=floor(sqrt(length(na.omit(data$LotFrontage))))
-## Histograma
-hist(data$LotFrontage, main ="LotFrontage", breaks = bins)
-##  QQ-quantil normal
-qqnorm(data$LotFrontage, pch = 1, frame = FALSE)
-qqline(data$LotFrontage, col = "steelblue", lwd = 2)
-## Lilliefonds
-lillie.test(data$LotFrontage)
-cat("\n")
-
-
-#######################
-cat("LotArea")
-bins=floor(sqrt(length(na.omit(data$LotArea))))
-## Histograma
-hist(data$LotArea, main ="LotArea", breaks = bins)
-##  QQ-quantil normal
-qqnorm(data$LotArea, pch = 1, frame = FALSE)
-qqline(data$LotArea, col = "steelblue", lwd = 2)
-## Lilliefonds
-lillie.test(data$LotArea)
-cat("\n")
-
-#######################
-cat("YearBuilt")
-bins=floor(sqrt(length(na.omit(data$YearBuilt))))
-## Histograma
-hist(data$YearBuilt, main ="YearBuilt", breaks = bins)
-##  QQ-quantil normal
-qqnorm(data$YearBuilt, pch = 1, frame = FALSE)
-qqline(data$YearBuilt, col = "steelblue", lwd = 2)
-## Lilliefonds
-lillie.test(table(data$YearBuilt))
-cat("\n")
-
-
-#######################
-cat("YearRemodAdd")
-bins=floor(sqrt(length(na.omit(data$YearRemodAdd))))
-## Histograma
-hist(data$YearRemodAdd, main ="YearRemodAdd", breaks = bins)
-##  QQ-quantil normal
-qqnorm(data$YearRemodAdd, pch = 1, frame = FALSE)
-qqline(data$YearRemodAdd, col = "steelblue", lwd = 2)
-## Lilliefonds
-lillie.test(table(data$YearRemodAdd))
-cat("\n")
-
-
-#######################
-cat("MasVnrArea")
-bins=floor(sqrt(length(na.omit(data$MasVnrArea))))
-## Histograma
-hist(data$MasVnrArea, main ="MasVnrArea", breaks = bins)
-##  QQ-quantil normal
-qqnorm(data$MasVnrArea, pch = 1, frame = FALSE)
-qqline(data$MasVnrArea, col = "steelblue", lwd = 2)
-## Lilliefonds
-lillie.test(table(data$MasVnrArea))
-cat("\n")
-
 for (val in nombres  ){
   if(typeof(data[,val]) == 'integer'){
     cat("\n")
@@ -114,5 +51,13 @@ for (val in nombres  ){
 }
 
 
+### Comparando
 
+bins=floor(sqrt(length(na.omit(data$X1stFlrSF))))
+h1<-hist(data$X1stFlrSF,  breaks = bins, plot = FALSE)
+bins=floor(sqrt(length(na.omit(data$LotArea))))
+h2<-hist(data$LotArea, breaks = bins,plot = FALSE)
+
+plot(h2)
+plot(h1, add = TRUE)
 
