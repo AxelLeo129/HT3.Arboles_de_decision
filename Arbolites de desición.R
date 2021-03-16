@@ -7,7 +7,10 @@ library(mclust)
 library(fpc) 
 library(NbClust) 
 library(factoextra)
-library(hablar)
+library(arsenal)
+library(tidyverse)
+
+
 data <- read.csv("house-prices-advanced-regression-techniques/test.csv")
 cuantitativas <- data.frame(data$Id)
 
@@ -78,9 +81,22 @@ legend("topright",
 nums <- sapply(data, is.numeric)
 cuantitativas <- data[ , nums]
 cuantitativas<-na.omit(cuantitativas)
-###### Corrplot 
+###### 
 cuantitativas$data.Id<- NULL
-cuantitativas$Id <- NULL
+cuantitativas[, c('MSSubClass','OverallQual','OverallCond','YearBuilt', 'YearRemodAdd', 'LowQualFinSF','KitchenAbvGr')]<- NULL
 cuantitativas<-na.omit(cuantitativas)
-corrplot(cuantitativas,use="complete.obs")
 
+## Elbow graph
+wss <- (nrow(cuantitativas)-1)*sum(apply(cuantitativas[,2:30],2,var))
+
+for (i in 2:10) 
+  wss[i] <- sum(kmeans(cuantitativas[,2:30], centers=i)$withinss)
+plot(1:10, wss, type="b", xlab="Number of Clusters",  ylab="Within groups sum of squares")
+
+Datos_clusters <- pam(cuantitativas, k = 5)
+cuantitativas$cluster <- Datos_clusters$cluster
+
+
+## Analizando clúster.
+c1<-tableby(cluster ~ . ,data = cuantitativas)
+print(table(summary(c1)))
